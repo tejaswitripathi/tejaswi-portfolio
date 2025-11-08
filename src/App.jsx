@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import SpiralScene from "./components/SpiralScene";
+import CategoryPage from "./components/CategoryPage";
+import ParticlesBackground from "./components/ParticlesBackground";
 
-function App() {
-  const [count, setCount] = useState(0)
+function AppContent() {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="relative min-h-screen overflow-hidden bg-black">
+      {/* 🌸 Pink glow background */}
+      <div className="fixed inset-0 z-[0] pointer-events-none">
+        <div className="w-full h-full bg-[radial-gradient(circle_at_center,rgba(255,105,180,0.15)_0%,rgba(0,0,0,0.9)_85%)]" />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+
+      {/* ✨ Show particle background only on home page */}
+      {isHome && (
+        <div id="spiral-particles" className="fixed inset-0 z-[1] pointer-events-none">
+          <ParticlesBackground />
+        </div>
+      )}
+
+      {/* 🌙 Main content layer */}
+      <div className="relative z-[2]">
+        <Routes>
+          <Route path="/" element={<SpiralScene />} />
+          <Route path="/category/:name" element={<CategoryPage />} />
+        </Routes>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  );
+}

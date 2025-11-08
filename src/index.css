@@ -1,68 +1,131 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
+@font-face {
+  font-family: 'Condor Medium Condensed Italic';
+  src: url('/fonts/Condor-Medium-Condensed-Italic.otf') format('opentype');
   font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  font-style: italic;
 }
-a:hover {
-  color: #535bf2;
+
+@font-face {
+  font-family: 'Cantarell';
+  src: url('/fonts/Cantarell-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
 }
+
+@font-face {
+  font-family: 'Crimson Text';
+  src: url('/fonts/CrimsonText-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('/fonts/EBGaramond-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+/* --- Image hover popout with background dim --- */
+.category-grid {
+  position: relative;
+  isolation: isolate; /* ensures hover overlay doesn't leak out */
+}
+
+.category-img-wrapper {
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+  transition: transform 0.3s ease, z-index 0s;
+}
+
+.category-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transform-origin: center center;
+}
+
+/* background dim when hovering */
+.category-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0); /* default transparent */
+  pointer-events: none;
+  transition: background 0.4s ease;
+  z-index: 0;
+}
+
+.category-grid:hover::before {
+  background: rgba(0, 0, 0, 0.35); /* dim background */
+}
+
+/* Hovered image pops ABOVE all others */
+.category-img-wrapper:hover {
+  z-index: 100;
+}
+
+.category-img-wrapper:hover .category-img {
+  transform: scale(1.2);
+  box-shadow: 0 0 35px rgba(255, 192, 203, 0.45);
+  cursor: pointer;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeInLeft {
+  animation: fadeInLeft 1.2s ease-out forwards;
+}
+
+.animate-fadeInRight {
+  animation: fadeInRight 1.2s ease-out forwards;
+}
+
+
+.animate-fadeIn {
+  animation: fadeInUp 0.8s ease-out both;
+}
+
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  background-color: black;
+  color: white;
 }
